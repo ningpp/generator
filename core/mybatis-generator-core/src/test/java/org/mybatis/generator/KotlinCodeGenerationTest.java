@@ -18,6 +18,7 @@ package org.mybatis.generator;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -48,8 +49,30 @@ class KotlinCodeGenerationTest {
     }
 
     static List<GeneratedKotlinFile> kotlinFileGenerator() throws Exception {
+        List<GeneratedKotlinFile> allFiles = new ArrayList<>();
+        List<GeneratedKotlinFile> files = generateKotlinFiles();
+        allFiles.addAll(files);
+        List<GeneratedKotlinFile> files2 = generateKotlinFiles2();
+        allFiles.addAll(files2);
+
+        assertEquals(files.size(), files2.size());
+        int size = files.size();
+        for (int i = 0; i < size; i++) {
+            assertEquals(files.get(i).getFormattedContent(),
+                    files2.get(i).getFormattedContent());
+        }
+
+        return allFiles;
+    }
+
+    static List<GeneratedKotlinFile> generateKotlinFiles() throws Exception {
         JavaCodeGenerationTest.createDatabase();
         return generateKotlinFiles("/scripts/generatorConfig-kotlin.xml");
+    }
+
+    static List<GeneratedKotlinFile> generateKotlinFiles2() throws Exception {
+        JavaCodeGenerationTest.createDatabase();
+        return generateKotlinFiles("/scripts/generatorConfig-kotlin2.xml");
     }
 
     static List<GeneratedKotlinFile> generateKotlinFiles(String configFile) throws Exception {
@@ -60,7 +83,9 @@ class KotlinCodeGenerationTest {
         DefaultShellCallback shellCallback = new DefaultShellCallback(true);
 
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
-        myBatisGenerator.generate(null, null, null, false);
+        HashSet<String> ctxIds = new HashSet<>();
+        ctxIds.add("kotlin-modelonly");
+        myBatisGenerator.generate(null, ctxIds, null, false);
         return myBatisGenerator.getGeneratedKotlinFiles();
     }
 }

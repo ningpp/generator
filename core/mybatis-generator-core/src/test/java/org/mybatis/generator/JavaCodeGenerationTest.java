@@ -51,8 +51,31 @@ class JavaCodeGenerationTest {
 
     static List<GeneratedJavaFile> javaFileGenerator() throws Exception {
         List<GeneratedJavaFile> generatedFiles = new ArrayList<>();
-        generatedFiles.addAll(generateJavaFilesMybatis());
-        generatedFiles.addAll(generateJavaFilesMybatisDsql());
+        List<GeneratedJavaFile> mybatisFiles = generateJavaFilesMybatis();
+        generatedFiles.addAll(mybatisFiles);
+        List<GeneratedJavaFile> mybatisFiles2 = generateJavaFilesMybatis2();
+        generatedFiles.addAll(mybatisFiles2);
+
+        assertEquals(mybatisFiles.size(), mybatisFiles2.size());
+        int size = mybatisFiles.size();
+        for (int i = 0; i < size; i++) {
+            assertEquals(mybatisFiles.get(i).getFormattedContent(),
+                    mybatisFiles2.get(i).getFormattedContent());
+        }
+
+
+        List<GeneratedJavaFile> dsqlFiles = generateJavaFilesMybatisDsql();
+        generatedFiles.addAll(dsqlFiles);
+        List<GeneratedJavaFile> dsql2Files = generateJavaFilesMybatisDsql2();
+        generatedFiles.addAll(dsql2Files);
+
+        assertEquals(dsqlFiles.size(), dsql2Files.size());
+        int dsize = dsqlFiles.size();
+        for (int i = 0; i < dsize; i++) {
+            assertEquals(dsqlFiles.get(i).getFormattedContent(),
+                         dsql2Files.get(i).getFormattedContent());
+        }
+
         return generatedFiles;
     }
 
@@ -61,9 +84,19 @@ class JavaCodeGenerationTest {
         return generateJavaFiles("/scripts/generatorConfig.xml");
     }
 
+    static List<GeneratedJavaFile> generateJavaFilesMybatis2() throws Exception {
+        createDatabase();
+        return generateJavaFiles("/scripts/generatorConfig2.xml");
+    }
+
     static List<GeneratedJavaFile> generateJavaFilesMybatisDsql() throws Exception {
         createDatabase();
         return generateJavaFiles("/scripts/generatorConfig_Dsql.xml");
+    }
+
+    static List<GeneratedJavaFile> generateJavaFilesMybatisDsql2() throws Exception {
+        createDatabase();
+        return generateJavaFiles("/scripts/generatorConfig_Dsql2.xml");
     }
 
     static List<GeneratedJavaFile> generateJavaFiles(String configFile) throws Exception {

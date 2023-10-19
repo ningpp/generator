@@ -62,8 +62,20 @@ class XmlCodeGenerationTest {
     }
 
     static List<GeneratedXmlFile> generateXmlFilesMybatis() throws Exception {
+        List<GeneratedXmlFile> allFiles = new ArrayList<>();
         JavaCodeGenerationTest.createDatabase();
-        return generateXmlFiles("/scripts/generatorConfig.xml");
+        List<GeneratedXmlFile> xmlFiles = generateXmlFiles("/scripts/generatorConfig.xml");
+        allFiles.addAll(xmlFiles);
+        List<GeneratedXmlFile> xml2Files = generateXmlFiles("/scripts/generatorConfig2.xml");
+        allFiles.addAll(xml2Files);
+
+        assertEquals(xmlFiles.size(), xml2Files.size());
+        int size = xmlFiles.size();
+        for (int i = 0; i < size; i++) {
+            assertEquals(xmlFiles.get(i).getFormattedContent(),
+                    xml2Files.get(i).getFormattedContent());
+        }
+        return allFiles;
     }
 
     static List<GeneratedXmlFile> generateXmlFiles(String configFile) throws Exception {

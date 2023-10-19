@@ -163,8 +163,12 @@ public class DynamicSqlMapperGenerator extends AbstractJavaClientGenerator {
     }
 
     protected TopLevelClass getSupportClass() {
-        return DynamicSqlSupportClassGenerator.of(
-                introspectedTable, context.getCommentGenerator(), warnings).generate();
+        DynamicSqlSupportClassGenerator generator = new DynamicSqlSupportClassGenerator(getProject());
+        generator.setContext(context);
+        generator.setIntrospectedTable(introspectedTable);
+        generator.setWarnings(warnings);
+        generator.setProgressCallback(progressCallback);
+        return generator.generate();
     }
 
     protected void addInsertOneMethod(Interface interfaze) {

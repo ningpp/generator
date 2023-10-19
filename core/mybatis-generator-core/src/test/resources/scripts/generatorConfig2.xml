@@ -23,7 +23,11 @@
 <generatorConfiguration>
   <properties resource="scripts/database.properties"/>
 
-  <context id="FlatJava5" defaultModelType="flat" targetRuntime="MyBatis3">
+  <context id="FlatJava5" defaultModelType="flat"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
     <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
@@ -82,7 +86,11 @@
     </table>
   </context>
 
-  <context id="HierarchicalJava5" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+  <context id="HierarchicalJava5" defaultModelType="hierarchical"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 
     <commentGenerator>
@@ -137,7 +145,11 @@
     </table>
   </context>
 
-  <context id="ConditionalJava5" targetRuntime="MyBatis3" defaultModelType="conditional">
+  <context id="ConditionalJava5" defaultModelType="conditional"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
 
@@ -188,7 +200,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests" targetRuntime="MyBatis3">
+  <context id="miscellaneousTests"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
     <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin" >
@@ -261,8 +277,12 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_NoClient" targetRuntime="MyBatis3">
+  <context id="miscellaneousTests_NoClient"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
     <property name="autoDelimitKeywords" value="true" />
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -285,8 +305,12 @@
     <table tableName="NameView" />
   </context>
 
-  <context id="miscellaneousTests_ModelOnly1" targetRuntime="MyBatis3">
+  <context id="miscellaneousTests_ModelOnly1"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
     <property name="autoDelimitKeywords" value="true" />
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -303,8 +327,12 @@
     <table tableName="NameView" />
   </context>
 
-  <context id="miscellaneousTests_ModelOnly2" targetRuntime="MyBatis3">
+  <context id="miscellaneousTests_ModelOnly2"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
     <property name="autoDelimitKeywords" value="true" />
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -333,7 +361,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_immutable" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+  <context id="miscellaneousTests_immutable" defaultModelType="hierarchical"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -368,7 +400,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_immutable_conditional" targetRuntime="MyBatis3" defaultModelType="conditional">
+  <context id="miscellaneousTests_immutable_conditional" defaultModelType="conditional"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -403,7 +439,11 @@
     </table>
   </context>
 
-  <context id="FlatJava5_Annotated" defaultModelType="flat" targetRuntime="MyBatis3">
+  <context id="FlatJava5_Annotated" defaultModelType="flat"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
 
@@ -451,7 +491,11 @@
     </table>
   </context>
 
-  <context id="HierarchicalJava5_Annotated" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+  <context id="HierarchicalJava5_Annotated" defaultModelType="hierarchical"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 
     <commentGenerator>
@@ -497,7 +541,11 @@
     </table>
   </context>
 
-  <context id="ConditionalJava5_Annotated" targetRuntime="MyBatis3" defaultModelType="conditional">
+  <context id="ConditionalJava5_Annotated" defaultModelType="conditional"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
 
@@ -544,7 +592,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_Annotated" targetRuntime="MyBatis3">
+  <context id="miscellaneousTests_Annotated"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
     <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin" >
@@ -604,7 +656,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_immutable_Annotated" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+  <context id="miscellaneousTests_immutable_Annotated" defaultModelType="hierarchical"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -633,7 +689,11 @@
     <table tableName="PKFieldsBlobs" alias="A" />
   </context>
 
-  <context id="FlatJava5_Mixed" defaultModelType="flat" targetRuntime="MyBatis3">
+  <context id="FlatJava5_Mixed" defaultModelType="flat"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
 
@@ -684,7 +744,11 @@
     </table>
   </context>
 
-  <context id="HierarchicalJava5_Mixed" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+  <context id="HierarchicalJava5_Mixed" defaultModelType="hierarchical"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 
     <commentGenerator>
@@ -734,7 +798,11 @@
     </table>
   </context>
 
-  <context id="ConditionalJava5_Mixed" targetRuntime="MyBatis3" defaultModelType="conditional">
+  <context id="ConditionalJava5_Mixed" defaultModelType="conditional"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
 
@@ -785,7 +853,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_Mixed" targetRuntime="MyBatis3">
+  <context id="miscellaneousTests_Mixed"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
     <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin" >
@@ -838,7 +910,11 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_immutable_Mixed" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+  <context id="miscellaneousTests_immutable_Mixed" defaultModelType="hierarchical"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3CompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
 
     <commentGenerator>
         <property name="suppressAllComments" value="true"/>
@@ -871,7 +947,11 @@
     <table tableName="PKFieldsBlobs" alias="A" />
   </context>
 
-  <context id="simple" targetRuntime="MyBatis3Simple">
+  <context id="simple"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3SimpleCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
     <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
@@ -925,7 +1005,11 @@
     </table>
   </context>
 
-  <context id="simple-annotated" targetRuntime="MyBatis3Simple">
+  <context id="simple-annotated"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3SimpleCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
     <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
@@ -975,7 +1059,11 @@
     </table>
   </context>
 
-  <context id="nothing-generated" targetRuntime="MyBatis3Simple">
+  <context id="nothing-generated"
+      targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingMyBatis3Impl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3SimpleCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.IgnoreViewsPlugin" />
 
     <commentGenerator>

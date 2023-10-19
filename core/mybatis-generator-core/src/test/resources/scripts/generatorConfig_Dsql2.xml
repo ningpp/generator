@@ -21,7 +21,10 @@
  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-  <context id="dsql">
+  <context id="dsql2" targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingImpl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3DynamicSqlCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 
     <commentGenerator>
@@ -82,7 +85,10 @@
     </table>
   </context>
 
-  <context id="dsql-readonly" targetRuntime="MyBatis3DynamicSql">
+  <context id="dsql2-readonly"  targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingImpl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3DynamicSqlCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.dsql.ReadOnlyPlugin" />
 
     <commentGenerator>
@@ -126,7 +132,10 @@
     </table>
   </context>
 
-  <context id="miscellaneousTests_Annotated" targetRuntime="MyBatis3DynamicSql">
+  <context id="miscellaneousTests_Annotated2" targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingImpl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3DynamicSqlCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
     <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
     <plugin type="org.mybatis.generator.plugins.CacheNamespacePlugin" >
@@ -188,7 +197,10 @@
     </table>
   </context>
 
-  <context id="dsql-modelonly" targetRuntime="MyBatis3DynamicSql">
+  <context id="dsql2-modelonly" targetRuntime="org.mybatis.generator.codegen.IntrospectedTableGenerateNothingImpl">
+    <plugin type="org.mybatis.generator.plugins.MyBatis3DynamicSqlCompositePlugin">
+        <property name="targetProject" value="MAVEN"/>
+    </plugin>
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
 
     <commentGenerator>
