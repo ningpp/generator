@@ -33,6 +33,14 @@ public abstract class AbstractXmlGeneratorPlugin extends AbstractGeneratorPlugin
         this.clientPlugin = clientPlugin;
     }
 
+    @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return;
+        }
+        introspectedTable.setMyBatis3JavaMapperType(AbstractJavaClientGeneratorPlugin.calculateJavaMapperType(introspectedTable));
+    }
+
     public ClientCompositePlugin getClientPlugin() {
         return clientPlugin;
     }

@@ -24,8 +24,13 @@ public class DynamicSqlMapperGeneratorPlugin extends AbstractJavaGeneratorPlugin
 
     @Override
     public void initialized(IntrospectedTable introspectedTable) {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return;
+        }
         introspectedTable.setMyBatisDynamicSqlSupportType(
                 DynamicSqlSupportClassGeneratorPlugin.calculateDynamicSqlSupportType(introspectedTable));
+
+        introspectedTable.setMyBatis3JavaMapperType(AbstractJavaClientGeneratorPlugin.calculateJavaMapperType(introspectedTable));
     }
 
     @Override

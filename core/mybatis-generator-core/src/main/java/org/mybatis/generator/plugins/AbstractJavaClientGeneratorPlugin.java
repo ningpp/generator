@@ -15,11 +15,46 @@
  */
 package org.mybatis.generator.plugins;
 
+import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
+import org.mybatis.generator.config.TableConfiguration;
+
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 public abstract class AbstractJavaClientGeneratorPlugin
         extends AbstractJavaGeneratorPlugin {
+
+    @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return;
+        }
+        introspectedTable.setMyBatis3JavaMapperType(
+                calculateJavaMapperType(introspectedTable));
+    }
+
+    public static String calculateJavaMapperType(IntrospectedTable introspectedTable) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(DynamicSqlSupportClassGeneratorPlugin.calculateJavaClientInterfacePackage(introspectedTable));
+        if (DynamicSqlSupportClassGeneratorPlugin.calculateJavaClientInterfacePackage(introspectedTable)==null) {
+            System.out.println(introspectedTable.getContext().getId() + "\t" + introspectedTable.getFullyQualifiedTableNameAtRuntime());
+        }
+        sb.append('.');
+        TableConfiguration tableConfiguration = introspectedTable.getTableConfiguration();
+        FullyQualifiedTable fullyQualifiedTable = introspectedTable.getFullyQualifiedTable();
+        if (stringHasValue(tableConfiguration.getMapperName())) {
+            sb.append(tableConfiguration.getMapperName());
+        } else {
+            if (stringHasValue(fullyQualifiedTable.getDomainObjectSubPackage())) {
+                sb.append(fullyQualifiedTable.getDomainObjectSubPackage());
+                sb.append('.');
+            }
+            sb.append(fullyQualifiedTable.getDomainObjectName());
+            sb.append("Mapper"); //$NON-NLS-1$
+        }
+        return sb.toString();
+    }
 
     @Override
     public AbstractJavaClientGenerator getGenerator(

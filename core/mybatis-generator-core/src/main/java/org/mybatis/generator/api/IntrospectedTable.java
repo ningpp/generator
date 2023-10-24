@@ -44,6 +44,7 @@ import org.mybatis.generator.internal.rules.ConditionalModelRules;
 import org.mybatis.generator.internal.rules.FlatModelRules;
 import org.mybatis.generator.internal.rules.HierarchicalModelRules;
 import org.mybatis.generator.internal.rules.Rules;
+import org.mybatis.generator.plugins.AbstractJavaClientGeneratorPlugin;
 import org.mybatis.generator.plugins.AnnotatedClientGeneratorPlugin;
 import org.mybatis.generator.plugins.DynamicSqlSupportClassGeneratorPlugin;
 
@@ -678,22 +679,9 @@ public abstract class IntrospectedTable {
             return;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(calculateJavaClientInterfacePackage());
-        sb.append('.');
-        if (stringHasValue(tableConfiguration.getMapperName())) {
-            sb.append(tableConfiguration.getMapperName());
-        } else {
-            if (stringHasValue(fullyQualifiedTable.getDomainObjectSubPackage())) {
-                sb.append(fullyQualifiedTable.getDomainObjectSubPackage());
-                sb.append('.');
-            }
-            sb.append(fullyQualifiedTable.getDomainObjectName());
-            sb.append("Mapper"); //$NON-NLS-1$
-        }
-        setMyBatis3JavaMapperType(sb.toString());
-
         if (!(this instanceof IntrospectedTableGenerateNothingImpl)) {
+            setMyBatis3JavaMapperType(AbstractJavaClientGeneratorPlugin.calculateJavaMapperType(this));
+
             setMyBatis3SqlProviderType(AnnotatedClientGeneratorPlugin.calculateSqlProviderType(this));
 
             setMyBatisDynamicSqlSupportType(DynamicSqlSupportClassGeneratorPlugin

@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -86,7 +87,7 @@ class XmlCodeGenerationTest {
         DefaultShellCallback shellCallback = new DefaultShellCallback(true);
 
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
-        myBatisGenerator.generate(null, null, null, false);
+        myBatisGenerator.generate(null, Set.of("miscellaneousTests_NoClient"), null, false);
         return myBatisGenerator.getGeneratedXmlFiles();
     }
 
