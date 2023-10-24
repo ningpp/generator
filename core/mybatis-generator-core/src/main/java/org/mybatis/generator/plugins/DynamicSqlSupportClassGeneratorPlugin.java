@@ -74,7 +74,7 @@ public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGenerator
         return isTrue(propertyHolder.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES));
     }
 
-    private static String calculateJavaClientInterfacePackage(IntrospectedTable introspectedTable) {
+    public static String calculateJavaClientInterfacePackage(IntrospectedTable introspectedTable) {
         JavaClientGeneratorConfiguration config = introspectedTable.getContext()
                 .getJavaClientGeneratorConfiguration();
         if (config == null) {

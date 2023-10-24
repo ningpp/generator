@@ -15,13 +15,23 @@
  */
 package org.mybatis.generator.plugins;
 
+import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.AnnotatedClientGenerator;
+import org.mybatis.generator.config.TableConfiguration;
+
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 public class AnnotatedClientGeneratorPlugin extends AbstractJavaClientGeneratorPlugin {
 
     public static final String TYPE_ANNOTATEDMAPPER = "ANNOTATEDMAPPER";
+
+    @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        introspectedTable.setMyBatis3SqlProviderType(
+                calculateSqlProviderType(introspectedTable));
+    }
 
     @Override
     public AbstractJavaClientGenerator getClientGenerator(
@@ -30,6 +40,26 @@ public class AnnotatedClientGeneratorPlugin extends AbstractJavaClientGeneratorP
             return new AnnotatedClientGenerator(getProject());
         }
         return null;
+    }
+
+    public static String calculateSqlProviderType(IntrospectedTable introspectedTable) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(DynamicSqlSupportClassGeneratorPlugin
+                .calculateJavaClientInterfacePackage(introspectedTable));
+        sb.append('.');
+        TableConfiguration tableConfiguration = introspectedTable.getTableConfiguration();
+        FullyQualifiedTable fullyQualifiedTable = introspectedTable.getFullyQualifiedTable();
+        if (stringHasValue(tableConfiguration.getSqlProviderName())) {
+            sb.append(tableConfiguration.getSqlProviderName());
+        } else {
+            if (stringHasValue(fullyQualifiedTable.getDomainObjectSubPackage())) {
+                sb.append(fullyQualifiedTable.getDomainObjectSubPackage());
+                sb.append('.');
+            }
+            sb.append(fullyQualifiedTable.getDomainObjectName());
+            sb.append("SqlProvider"); //$NON-NLS-1$
+        }
+        return sb.toString();
     }
 
 }
