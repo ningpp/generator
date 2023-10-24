@@ -686,12 +686,9 @@ public abstract class IntrospectedTable {
 
             setMyBatisDynamicSqlSupportType(DynamicSqlSupportClassGeneratorPlugin
                     .calculateDynamicSqlSupportType(this));
-        }
 
-        if (stringHasValue(tableConfiguration.getDynamicSqlTableObjectName())) {
-            setMyBatisDynamicSQLTableObjectName(tableConfiguration.getDynamicSqlTableObjectName());
-        } else {
-            setMyBatisDynamicSQLTableObjectName(fullyQualifiedTable.getDomainObjectName());
+            setMyBatisDynamicSQLTableObjectName(DynamicSqlSupportClassGeneratorPlugin
+                    .calculateDynamicSQLTableObjectName(this));
         }
     }
 

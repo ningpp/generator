@@ -31,6 +31,8 @@ public class KotlinMapperGeneratorPlugin
         }
         introspectedTable.setMyBatisDynamicSqlSupportType(
                 DynamicSqlSupportClassGeneratorPlugin.calculateDynamicSqlSupportType(introspectedTable));
+        introspectedTable.setMyBatisDynamicSQLTableObjectName(
+                DynamicSqlSupportClassGeneratorPlugin.calculateDynamicSQLTableObjectName(introspectedTable));
 
         introspectedTable.setMyBatis3JavaMapperType(AbstractJavaClientGeneratorPlugin.calculateJavaMapperType(introspectedTable));
     }

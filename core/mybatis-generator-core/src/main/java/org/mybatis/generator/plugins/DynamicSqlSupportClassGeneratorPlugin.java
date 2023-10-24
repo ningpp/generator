@@ -30,6 +30,19 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGeneratorPlugin {
 
     @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return;
+        }
+        introspectedTable.setMyBatisDynamicSqlSupportType(
+                calculateDynamicSqlSupportType(introspectedTable));
+        introspectedTable.setMyBatisDynamicSQLTableObjectName(
+                calculateDynamicSQLTableObjectName(introspectedTable));
+
+        introspectedTable.setMyBatis3JavaMapperType(AbstractJavaClientGeneratorPlugin.calculateJavaMapperType(introspectedTable));
+    }
+
+    @Override
     public AbstractJavaGenerator getGenerator(IntrospectedTable introspectedTable) {
         return context.getJavaClientGeneratorConfiguration() != null
                 ? new DynamicSqlSupportClassGenerator(getProject()) : null;
@@ -84,6 +97,16 @@ public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGenerator
         return config.getTargetPackage()
                 + introspectedTable.getFullyQualifiedTable()
                 .getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config));
+    }
+
+    public static String calculateDynamicSQLTableObjectName(IntrospectedTable introspectedTable) {
+        TableConfiguration tableConfiguration = introspectedTable.getTableConfiguration();
+        FullyQualifiedTable fullyQualifiedTable = introspectedTable.getFullyQualifiedTable();
+        if (stringHasValue(tableConfiguration.getDynamicSqlTableObjectName())) {
+            return tableConfiguration.getDynamicSqlTableObjectName();
+        } else {
+            return fullyQualifiedTable.getDomainObjectName();
+        }
     }
 
 }
