@@ -15,9 +15,17 @@
  */
 package org.mybatis.generator.plugins;
 
+import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
+import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
+import org.mybatis.generator.config.PropertyHolder;
+import org.mybatis.generator.config.PropertyRegistry;
+import org.mybatis.generator.config.TableConfiguration;
 import org.mybatis.generator.runtime.dynamic.sql.DynamicSqlSupportClassGenerator;
+
+import static org.mybatis.generator.internal.util.StringUtility.isTrue;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGeneratorPlugin {
 
@@ -25,6 +33,57 @@ public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGenerator
     public AbstractJavaGenerator getGenerator(IntrospectedTable introspectedTable) {
         return context.getJavaClientGeneratorConfiguration() != null
                 ? new DynamicSqlSupportClassGenerator(getProject()) : null;
+    }
+
+    public static String calculateDynamicSqlSupportType(IntrospectedTable introspectedTable) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(calculateDynamicSqlSupportPackage(introspectedTable));
+        sb.append('.');
+        TableConfiguration tableConfiguration = introspectedTable.getTableConfiguration();
+        FullyQualifiedTable fullyQualifiedTable = introspectedTable.getFullyQualifiedTable();
+        if (stringHasValue(tableConfiguration.getDynamicSqlSupportClassName())) {
+            sb.append(tableConfiguration.getDynamicSqlSupportClassName());
+        } else {
+            if (stringHasValue(fullyQualifiedTable.getDomainObjectSubPackage())) {
+                sb.append(fullyQualifiedTable.getDomainObjectSubPackage());
+                sb.append('.');
+            }
+            sb.append(fullyQualifiedTable.getDomainObjectName());
+            sb.append("DynamicSqlSupport"); //$NON-NLS-1$
+        }
+        return sb.toString();
+    }
+
+    private static String calculateDynamicSqlSupportPackage(IntrospectedTable introspectedTable) {
+        JavaClientGeneratorConfiguration config = introspectedTable.getContext()
+                .getJavaClientGeneratorConfiguration();
+        if (config == null) {
+            return null;
+        }
+
+        String packkage = config.getProperty(PropertyRegistry.CLIENT_DYNAMIC_SQL_SUPPORT_PACKAGE);
+        if (stringHasValue(packkage)) {
+            return packkage + introspectedTable.getFullyQualifiedTable()
+                    .getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config));
+        } else {
+            return calculateJavaClientInterfacePackage(introspectedTable);
+        }
+    }
+
+    private static boolean isSubPackagesEnabled(PropertyHolder propertyHolder) {
+        return isTrue(propertyHolder.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES));
+    }
+
+    private static String calculateJavaClientInterfacePackage(IntrospectedTable introspectedTable) {
+        JavaClientGeneratorConfiguration config = introspectedTable.getContext()
+                .getJavaClientGeneratorConfiguration();
+        if (config == null) {
+            return null;
+        }
+
+        return config.getTargetPackage()
+                + introspectedTable.getFullyQualifiedTable()
+                .getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config));
     }
 
 }

@@ -27,6 +27,12 @@ public class KotlinDynamicSqlSupportClassGeneratorPlugin
         extends AbstracKotlinGeneratorPlugin {
 
     @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        introspectedTable.setMyBatisDynamicSqlSupportType(
+                DynamicSqlSupportClassGeneratorPlugin.calculateDynamicSqlSupportType(introspectedTable));
+    }
+
+    @Override
     public AbstractKotlinGenerator getGenerator(
             IntrospectedTable introspectedTable) {
         if (context.getJavaClientGeneratorConfiguration() != null

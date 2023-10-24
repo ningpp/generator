@@ -30,6 +30,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.mybatis.generator.codegen.IntrospectedTableGenerateNothingImpl;
 import org.mybatis.generator.config.Context;
 import org.mybatis.generator.config.GeneratedKey;
 import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
@@ -43,6 +44,7 @@ import org.mybatis.generator.internal.rules.ConditionalModelRules;
 import org.mybatis.generator.internal.rules.FlatModelRules;
 import org.mybatis.generator.internal.rules.HierarchicalModelRules;
 import org.mybatis.generator.internal.rules.Rules;
+import org.mybatis.generator.plugins.DynamicSqlSupportClassGeneratorPlugin;
 
 /**
  * Base class for all code generator implementations. This class provides many
@@ -670,21 +672,6 @@ public abstract class IntrospectedTable {
                 + fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config));
     }
 
-    protected String calculateDynamicSqlSupportPackage() {
-        JavaClientGeneratorConfiguration config = context
-                .getJavaClientGeneratorConfiguration();
-        if (config == null) {
-            return null;
-        }
-
-        String packkage = config.getProperty(PropertyRegistry.CLIENT_DYNAMIC_SQL_SUPPORT_PACKAGE);
-        if (stringHasValue(packkage)) {
-            return packkage + fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config));
-        } else {
-            return calculateJavaClientInterfacePackage();
-        }
-    }
-
     protected void calculateJavaClientAttributes() {
         if (context.getJavaClientGeneratorConfiguration() == null) {
             return;
@@ -720,20 +707,10 @@ public abstract class IntrospectedTable {
         }
         setMyBatis3SqlProviderType(sb.toString());
 
-        sb.setLength(0);
-        sb.append(calculateDynamicSqlSupportPackage());
-        sb.append('.');
-        if (stringHasValue(tableConfiguration.getDynamicSqlSupportClassName())) {
-            sb.append(tableConfiguration.getDynamicSqlSupportClassName());
-        } else {
-            if (stringHasValue(fullyQualifiedTable.getDomainObjectSubPackage())) {
-                sb.append(fullyQualifiedTable.getDomainObjectSubPackage());
-                sb.append('.');
-            }
-            sb.append(fullyQualifiedTable.getDomainObjectName());
-            sb.append("DynamicSqlSupport"); //$NON-NLS-1$
+        if (!(this instanceof IntrospectedTableGenerateNothingImpl)) {
+            setMyBatisDynamicSqlSupportType(DynamicSqlSupportClassGeneratorPlugin
+                    .calculateDynamicSqlSupportType(this));
         }
-        setMyBatisDynamicSqlSupportType(sb.toString());
 
         if (stringHasValue(tableConfiguration.getDynamicSqlTableObjectName())) {
             setMyBatisDynamicSQLTableObjectName(tableConfiguration.getDynamicSqlTableObjectName());
