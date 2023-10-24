@@ -22,6 +22,11 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.codegen.AbstractGenerator;
+import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
+import org.mybatis.generator.config.PropertyHolder;
+import org.mybatis.generator.config.PropertyRegistry;
+
+import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
 public abstract class AbstractGeneratorPlugin extends PluginAdapter {
 
@@ -48,6 +53,16 @@ public abstract class AbstractGeneratorPlugin extends PluginAdapter {
         generator.setWarnings(new ArrayList<>(0));
     }
 
+    public static String calculateJavaModelPackage(IntrospectedTable introspectedTable) {
+        JavaModelGeneratorConfiguration config = introspectedTable.getContext()
+                .getJavaModelGeneratorConfiguration();
 
+        return config.getTargetPackage()
+                + introspectedTable.getFullyQualifiedTable().getSubPackageForModel(isSubPackagesEnabled(config));
+    }
+
+    public static boolean isSubPackagesEnabled(PropertyHolder propertyHolder) {
+        return isTrue(propertyHolder.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES));
+    }
 
 }

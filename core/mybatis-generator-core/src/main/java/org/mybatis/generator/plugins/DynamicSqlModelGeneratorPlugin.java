@@ -22,6 +22,11 @@ import org.mybatis.generator.runtime.dynamic.sql.DynamicSqlModelGenerator;
 public class DynamicSqlModelGeneratorPlugin extends AbstractJavaGeneratorPlugin {
 
     @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        introspectedTable.setBaseRecordType(BaseRecordGeneratorPlugin.calculateBaseRecordType(introspectedTable));
+    }
+
+    @Override
     public AbstractJavaGenerator getGenerator(IntrospectedTable introspectedTable) {
         return new DynamicSqlModelGenerator(getProject());
     }

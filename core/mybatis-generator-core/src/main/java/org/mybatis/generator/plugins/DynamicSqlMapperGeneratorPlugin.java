@@ -27,6 +27,7 @@ public class DynamicSqlMapperGeneratorPlugin extends AbstractJavaGeneratorPlugin
         if (context.getJavaClientGeneratorConfiguration() == null) {
             return;
         }
+        introspectedTable.setBaseRecordType(BaseRecordGeneratorPlugin.calculateBaseRecordType(introspectedTable));
         introspectedTable.setMyBatisDynamicSqlSupportType(
                 DynamicSqlSupportClassGeneratorPlugin.calculateDynamicSqlSupportType(introspectedTable));
         introspectedTable.setMyBatisDynamicSQLTableObjectName(

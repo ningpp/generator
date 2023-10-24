@@ -33,8 +33,6 @@ import java.util.stream.Stream;
 import org.mybatis.generator.codegen.IntrospectedTableGenerateNothingImpl;
 import org.mybatis.generator.config.Context;
 import org.mybatis.generator.config.GeneratedKey;
-import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
-import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
 import org.mybatis.generator.config.ModelType;
 import org.mybatis.generator.config.PropertyHolder;
 import org.mybatis.generator.config.PropertyRegistry;
@@ -46,8 +44,12 @@ import org.mybatis.generator.internal.rules.HierarchicalModelRules;
 import org.mybatis.generator.internal.rules.Rules;
 import org.mybatis.generator.plugins.AbstractJavaClientGeneratorPlugin;
 import org.mybatis.generator.plugins.AnnotatedClientGeneratorPlugin;
+import org.mybatis.generator.plugins.BaseRecordGeneratorPlugin;
 import org.mybatis.generator.plugins.DynamicSqlSupportClassGeneratorPlugin;
 import org.mybatis.generator.plugins.ExampleGeneratorPlugin;
+import org.mybatis.generator.plugins.KotlinDataClassGeneratorPlugin;
+import org.mybatis.generator.plugins.PrimaryKeyGeneratorPlugin;
+import org.mybatis.generator.plugins.RecordWithBLOBsGeneratorPlugin;
 
 /**
  * Base class for all code generator implementations. This class provides many
@@ -664,17 +666,6 @@ public abstract class IntrospectedTable {
         return isTrue(propertyHolder.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES));
     }
 
-    protected String calculateJavaClientInterfacePackage() {
-        JavaClientGeneratorConfiguration config = context
-                .getJavaClientGeneratorConfiguration();
-        if (config == null) {
-            return null;
-        }
-
-        return config.getTargetPackage()
-                + fullyQualifiedTable.getSubPackageForClientOrSqlMap(isSubPackagesEnabled(config));
-    }
-
     protected void calculateJavaClientAttributes() {
         if (context.getJavaClientGeneratorConfiguration() == null) {
             return;
@@ -694,35 +685,17 @@ public abstract class IntrospectedTable {
     }
 
     protected void calculateModelAttributes() {
-        String pakkage = ExampleGeneratorPlugin.calculateJavaModelPackage(this);
+        if (!(this instanceof IntrospectedTableGenerateNothingImpl)) {
+            setPrimaryKeyType(PrimaryKeyGeneratorPlugin.calculatePrimaryKeyType(this));
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(pakkage);
-        sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("Key"); //$NON-NLS-1$
-        setPrimaryKeyType(sb.toString());
+            setBaseRecordType(BaseRecordGeneratorPlugin.calculateBaseRecordType(this));
 
-        sb.setLength(0);
-        sb.append(pakkage);
-        sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
-        setBaseRecordType(sb.toString());
+            setKotlinRecordType(KotlinDataClassGeneratorPlugin.calculateKotlinRecordType(this));
 
-        sb.setLength(0);
-        sb.append(pakkage);
-        sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
-        setKotlinRecordType(sb.toString());
+            setRecordWithBLOBsType(RecordWithBLOBsGeneratorPlugin.calculateRecordWithBLOBsType(this));
 
-        sb.setLength(0);
-        sb.append(pakkage);
-        sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("WithBLOBs"); //$NON-NLS-1$
-        setRecordWithBLOBsType(sb.toString());
-
-        setExampleType(ExampleGeneratorPlugin.calculateExampleType(this));
+            setExampleType(ExampleGeneratorPlugin.calculateExampleType(this));
+        }
     }
 
     protected String calculateSqlMapPackage() {

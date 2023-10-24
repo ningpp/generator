@@ -22,6 +22,19 @@ import org.mybatis.generator.runtime.kotlin.KotlinDataClassGenerator;
 public class KotlinDataClassGeneratorPlugin extends AbstracKotlinGeneratorPlugin {
 
     @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        introspectedTable.setKotlinRecordType(calculateKotlinRecordType(introspectedTable));
+    }
+
+    public static String calculateKotlinRecordType(IntrospectedTable introspectedTable) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(calculateJavaModelPackage(introspectedTable));
+        sb.append('.');
+        sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+        return sb.toString();
+    }
+
+    @Override
     public AbstractKotlinGenerator getGenerator(
             IntrospectedTable introspectedTable) {
         return new KotlinDataClassGenerator(getProject());

@@ -22,6 +22,20 @@ import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 public class PrimaryKeyGeneratorPlugin extends AbstractJavaGeneratorPlugin {
 
     @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        introspectedTable.setPrimaryKeyType(calculatePrimaryKeyType(introspectedTable));
+    }
+
+    public static String calculatePrimaryKeyType(IntrospectedTable introspectedTable) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(calculateJavaModelPackage(introspectedTable));
+        sb.append('.');
+        sb.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+        sb.append("Key"); //$NON-NLS-1$
+        return sb.toString();
+    }
+
+    @Override
     public AbstractJavaGenerator getGenerator(IntrospectedTable introspectedTable) {
         if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             return new PrimaryKeyGenerator(getProject());

@@ -22,6 +22,11 @@ import org.mybatis.generator.codegen.mybatis3.model.SimpleModelGenerator;
 public class SimpleModelGeneratorPlugin extends AbstractJavaGeneratorPlugin {
 
     @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        introspectedTable.setBaseRecordType(BaseRecordGeneratorPlugin.calculateBaseRecordType(introspectedTable));
+    }
+
+    @Override
     public AbstractJavaGenerator getGenerator(
             IntrospectedTable introspectedTable) {
         return new SimpleModelGenerator(getProject());
