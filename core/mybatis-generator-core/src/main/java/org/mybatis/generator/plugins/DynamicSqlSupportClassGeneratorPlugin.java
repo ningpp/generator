@@ -19,12 +19,10 @@ import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
-import org.mybatis.generator.config.PropertyHolder;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.config.TableConfiguration;
 import org.mybatis.generator.runtime.dynamic.sql.DynamicSqlSupportClassGenerator;
 
-import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGeneratorPlugin {
@@ -81,10 +79,6 @@ public class DynamicSqlSupportClassGeneratorPlugin extends AbstractJavaGenerator
         } else {
             return calculateJavaClientInterfacePackage(introspectedTable);
         }
-    }
-
-    private static boolean isSubPackagesEnabled(PropertyHolder propertyHolder) {
-        return isTrue(propertyHolder.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES));
     }
 
     public static String calculateJavaClientInterfacePackage(IntrospectedTable introspectedTable) {

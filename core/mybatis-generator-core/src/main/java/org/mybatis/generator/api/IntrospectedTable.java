@@ -47,6 +47,7 @@ import org.mybatis.generator.internal.rules.Rules;
 import org.mybatis.generator.plugins.AbstractJavaClientGeneratorPlugin;
 import org.mybatis.generator.plugins.AnnotatedClientGeneratorPlugin;
 import org.mybatis.generator.plugins.DynamicSqlSupportClassGeneratorPlugin;
+import org.mybatis.generator.plugins.ExampleGeneratorPlugin;
 
 /**
  * Base class for all code generator implementations. This class provides many
@@ -692,16 +693,8 @@ public abstract class IntrospectedTable {
         }
     }
 
-    protected String calculateJavaModelPackage() {
-        JavaModelGeneratorConfiguration config = context
-                .getJavaModelGeneratorConfiguration();
-
-        return config.getTargetPackage()
-                + fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config));
-    }
-
     protected void calculateModelAttributes() {
-        String pakkage = calculateJavaModelPackage();
+        String pakkage = ExampleGeneratorPlugin.calculateJavaModelPackage(this);
 
         StringBuilder sb = new StringBuilder();
         sb.append(pakkage);
@@ -729,30 +722,7 @@ public abstract class IntrospectedTable {
         sb.append("WithBLOBs"); //$NON-NLS-1$
         setRecordWithBLOBsType(sb.toString());
 
-        String exampleTargetPackage = calculateJavaModelExamplePackage();
-        sb.setLength(0);
-        sb.append(exampleTargetPackage);
-        sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("Example"); //$NON-NLS-1$
-        setExampleType(sb.toString());
-    }
-
-    /**
-     * If property exampleTargetPackage specified for example use the specified value, else
-     * use default value (targetPackage).
-     *
-     * @return the calculated package
-     */
-    protected String calculateJavaModelExamplePackage() {
-        JavaModelGeneratorConfiguration config = context.getJavaModelGeneratorConfiguration();
-        String exampleTargetPackage = config.getProperty(PropertyRegistry.MODEL_GENERATOR_EXAMPLE_PACKAGE);
-        if (!stringHasValue(exampleTargetPackage)) {
-            return calculateJavaModelPackage();
-        }
-
-        return exampleTargetPackage
-                + fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config));
+        setExampleType(ExampleGeneratorPlugin.calculateExampleType(this));
     }
 
     protected String calculateSqlMapPackage() {
