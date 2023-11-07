@@ -57,7 +57,6 @@ import org.mybatis.generator.plugins.RecordWithBLOBsGeneratorPlugin;
  * the actual code generation methods left unimplemented.
  *
  * @author Jeff Butler
- *
  */
 public abstract class IntrospectedTable {
 
